@@ -7,7 +7,7 @@ exports.login = function(req, res) {
         req.session.cookie.expires = new Date(Date.now() + day);
         req.session.cookie.maxAge = day;
         req.session.cookie.httpOnly = true;
-        req.session.user = { _id: id, username: user.data.username };
+        req.session.user = { _id: id, username: user.data.username, expires: new Date(Date.now() + day) };
         req.session.save(() => res.send("success"));
     }).catch(function(e) {
         res.send(e);
@@ -25,7 +25,7 @@ exports.register = function(req, res) {
         req.session.cookie.expires = new Date(Date.now() + day);
         req.session.cookie.maxAge = day;
         req.session.cookie.httpOnly = true;
-        req.session.user = { _id: id, username: user.data.username };
+        req.session.user = { _id: id, username: user.data.username, expires: new Date(Date.now() + day) };
         req.session.save(() => res.send("success"));
     }).catch(regErrors => {
         res.send(JSON.stringify(regErrors));
@@ -43,8 +43,8 @@ exports.home = function(req, res) {
 exports.userLogedIn = function(req, res) {
     const user = new User(req.body);
     if (req.session.user && user.data.id === '5cec755218d9-ad3c-4c07-5c78-f907e689') {
-        const { _id, username } = req.session.user;
-        const data = { id: _id, username };
+        const { _id, username, expires } = req.session.user;
+        const data = { id: _id, username, expires };
         return res.send(JSON.stringify(data));
     } else {
         return res.send("failure");
