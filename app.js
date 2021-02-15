@@ -20,6 +20,7 @@ let sessionOptions = session({
 });
 
 let whitelist = [
+  process.env.APP_PATH,
   'https://bubblyfast.netlify.com',
   'https://bubblyfast.netlify.app'
 ];
